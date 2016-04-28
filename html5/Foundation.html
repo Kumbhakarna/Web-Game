@@ -7,7 +7,16 @@
 
 </head>
 <body>
-<!--<img id="bgImage" width="220" weight="277" src="ice-lair.jpg"> -->
+<style>
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 1000px;
+}
+</style>
 <script>
 // Create the canvas
 var canvas = document.createElement("canvas");
@@ -23,7 +32,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
   bgReady = true;
 };
-bgImage.src = "./ice-lair.jpg";
+bgImage.src = "./bgcloth.jpg";
 bgImage.width = "1000";
 
 var heroReady = false;
@@ -36,11 +45,12 @@ heroImage.width = "5";
 
 
 var mosterImage = false;
+var monsterReady = false;
 var monsterImage = new Image();
 monsterImage.onload = function () {
   monsterReady = true;
 };
-monsterImage.src = "monsterImage.png";
+monsterImage.src = "redBlob.png";
 monsterImage.width = "5";
 
 // Game objects
@@ -214,30 +224,36 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
     monster.y -= 2;
   } else {
     if (moveUpRight) {
-      monster.y -= 6;
-      monster.x += 6;
+      monsterImage.src = "redBlob.png";
+      monster.y -= 2;
+      monster.x += 2;
     }
       else {
         if (moveRight) {
-          monster.x += 6;
+          monsterImage.src = "redBlob.png";
+          monster.x += 2;
         } else {
           if (moveDownRight) {
-            monster.y += 6;
-            monster.x += 6;
+            monsterImage.src = "redBlob.png";
+            monster.y += 2;
+            monster.x += 2;
           } else {
             if (moveDown) {
-              monster.y += 6;
+              monster.y += 2;
             } else {
               if (moveDownLeft) {
-                monster.y += 6;
-                monster.x -= 6;
+                monsterImage.src = "redBlobINVERT.png";
+                monster.y += 2;
+                monster.x -= 2;
               } else {
                 if (moveLeft) {
-                  monster.x -= 6;
+                  monsterImage.src = "redBlobINVERT.png";
+                  monster.x -= 2;
                 } else {
                   if (moveUpLeft) {
-                    monster.y -= 6;
-                    monster.x -= 6;
+                    monsterImage.src = "redBlobINVERT.png";
+                    monster.y -= 2;
+                    monster.x -= 2;
                   }
                 }
               }
@@ -251,13 +267,15 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
   if (38 in keysDown && hero.y - 5> 0) { // Player holding up
     hero.y -= hero.speed * modifier;
   }
-  if (40 in keysDown && hero.y + 90 < 600) { // Player holding down
+  if (40 in keysDown && hero.y + 50 < 600) { // Player holding down
     hero.y += hero.speed * modifier;
   }
   if (37 in keysDown && hero.x -5 > 0) { // Player holding left
+    heroImage.src = "heroImageINVERT.png";
     hero.x -= hero.speed * modifier;
   }
-  if (39 in keysDown && hero.x + 130< 1000) { // Player holding right
+  if (39 in keysDown && hero.x + 78 < 1000) { // Player holding right
+    heroImage.src = "heroImage.png";
     hero.x += monster.speed * modifier;
   }
 
@@ -275,15 +293,15 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
 
 // Draw everything
 var render = function () {
-  if (/*bgReady*/ true) {
+  if (bgReady) {
     ctx.drawImage(bgImage, 0, 0);
   }
 
-  if (/*heroReady*/ true) {
+  if (heroReady) {
     ctx.drawImage(heroImage, hero.x, hero.y);
   }
 
-  if (/*monsterReady*/ true) {
+  if (monsterReady) {
     ctx.drawImage(monsterImage, monster.x, monster.y);
   }
 
