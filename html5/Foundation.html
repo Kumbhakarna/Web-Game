@@ -1,28 +1,51 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>Ca$h Moneyy</title>
-<link rel="stylesheet" href="css/game.css">
+  <title>Ca$h Moneyy</title>
+  <link rel="stylesheet" href="css/game.css">
 
-
+<audio id="myAudio"
+ <source src="pokemon-Colosseum.mp3"
+         type='audio/mp3'>
+ Your user agent does not support the HTML5 Audio element.
+</audio>
+<button type="button" onclick="aud_play_pause()">Mute/UnMute</button>
+<script>
+function aud_play_pause() {
+  var myAudio = document.getElementById("myAudio");
+  if (myAudio.paused) {
+    myAudio.play();
+  } else {
+    myAudio.pause();
+  }
+}
+</script>
 </head>
 <body>
-<style>
-canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 1000px;
-}
-</style>
-<script>
+  <style>
+    button {
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      width: 1000px;
+    }
+    canvas {
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      width: 1000px;
+    }
+  </style>
+  <script>
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = 1000;
-canvas.height = 600;
+canvas.height = 580;
 document.body.appendChild(canvas);
 
 
@@ -89,7 +112,7 @@ var reset = function () {
 };
 //Global variables for monster
 var newDirection = true;
-var movementCount = 0;
+var movementCount = 140;
 var moveUp = false;
 var moveDown = false;
 var moveLeft = false;
@@ -114,21 +137,17 @@ var monsterReset = function () {
 
 // Update game objects
 var update = function (modifier) {
-   
-  
-  if ((movementCount == 100) || (monster.y + 90 >= 600) || (monster.y - 30 <= 0) || (monster.x -5 <= 0) || (monster.x + 80 >= 1000)) {
+
+
+  if ((movementCount == 140) || (monster.y + 50 >= 580) || (monster.y - 30 <= 0) || (monster.x -5 <= 0) || (monster.x + 80 >= 1000)) {
     movementCount = 0;
-monsterMove = Math.floor(Math.random() * 8) + 1 ;
+    monsterMove = Math.floor(Math.random() * 8) + 1 ;
 
     switch (monsterMove) {
       case 1: {
         if (monster.y - 30 > 0) {
           monsterReset();
           moveUp = true; 
-          /*
-          monster.y -= 2;
-          monster.x -= 2;
-          */    
         }
         movementCount++;
         break;
@@ -137,9 +156,6 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
         if (monster.y - 30 > 0 && monster.x + 80 < 1000) { 
           monsterReset();
           moveUpRight = true; 
-          //monster.y -= 2;
-          //monster.x += 2;
-          
         }
         movementCount++;
         break;
@@ -148,46 +164,31 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
         if (monster.x + 80 < 1000) { 
           monsterReset();
           moveRight = true; 
-          
-          //monster.y -= 2;
-          //monster.x += 2;
-          
         }
         movementCount++;
         break;
       }
 
       case 4: {
-        if (monster.y + 30 < 600 && monster.x + 80 < 1000) { 
+        if (monster.y + 50 < 580 && monster.x + 80 < 1000) { 
           monsterReset();
           moveDownRight = true; 
-          
-          //monster.y += 2;
-          //monster.x += 2;
-          
         }
         movementCount++;
         break;
       }
       case 5: {
-        if (monster.y + 30 < 600) { 
+        if (monster.y + 50 < 580) { 
           monsterReset();
           moveDown = true; 
-              
-          //monster.y += 2;
-          //monster.x += 2;
-                  }
+        }
         movementCount++;
         break;
       }
       case 6: {
-        if (monster.y + 30 < 600 && monster.x - 80 > 0) { 
+        if (monster.y + 50 < 580 && monster.x - 80 > 0) { 
           monsterReset();
-          moveDownLeft = true; 
-          
-          //monster.y += 2;
-          //monster.x -= 2;
-          
+          moveDownLeft = true;
         }
         movementCount++;
         break;
@@ -196,10 +197,6 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
         if ( monster.x - 80 > 0) { 
           monsterReset();
           moveLeft = true; 
-          
-          //monster.y += 2;
-          //monster.x -= 2;
-          
         }
         movementCount++;
         break;
@@ -209,10 +206,6 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
         if (monster.y - 30 > 0 && monster.x - 80 > 0) { 
           monsterReset();
           moveUpLeft = true; 
-          
-          //monster.y -= 2;
-          //monster.x -= 2;
-          
         }
         movementCount++;
         break;
@@ -220,7 +213,7 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
     }
   }
 
-    if (moveUp) {
+  if (moveUp) {
     monster.y -= 2;
   } else {
     if (moveUpRight) {
@@ -228,33 +221,32 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
       monster.y -= 2;
       monster.x += 2;
     }
-      else {
-        if (moveRight) {
+    else {
+      if (moveRight) {
+        monsterImage.src = "redBlob.png";
+        monster.x += 2;
+      } else {
+        if (moveDownRight) {
           monsterImage.src = "redBlob.png";
+          monster.y += 2;
           monster.x += 2;
         } else {
-          if (moveDownRight) {
-            monsterImage.src = "redBlob.png";
+          if (moveDown) {
             monster.y += 2;
-            monster.x += 2;
           } else {
-            if (moveDown) {
+            if (moveDownLeft) {
+              monsterImage.src = "redBlobINVERT.png";
               monster.y += 2;
+              monster.x -= 2;
             } else {
-              if (moveDownLeft) {
+              if (moveLeft) {
                 monsterImage.src = "redBlobINVERT.png";
-                monster.y += 2;
                 monster.x -= 2;
               } else {
-                if (moveLeft) {
+                if (moveUpLeft) {
                   monsterImage.src = "redBlobINVERT.png";
+                  monster.y -= 2;
                   monster.x -= 2;
-                } else {
-                  if (moveUpLeft) {
-                    monsterImage.src = "redBlobINVERT.png";
-                    monster.y -= 2;
-                    monster.x -= 2;
-                  }
                 }
               }
             }
@@ -262,12 +254,13 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
         }
       }
     }
+  }
 
   movementCount++;
   if (38 in keysDown && hero.y - 5> 0) { // Player holding up
     hero.y -= hero.speed * modifier;
   }
-  if (40 in keysDown && hero.y + 50 < 600) { // Player holding down
+  if (40 in keysDown && hero.y + 50 < 580) { // Player holding down
     hero.y += hero.speed * modifier;
   }
   if (37 in keysDown && hero.x -5 > 0) { // Player holding left
@@ -281,14 +274,14 @@ monsterMove = Math.floor(Math.random() * 8) + 1 ;
 
   // Are they touching?
   if (
-    hero.x <= (monster.x + 32)
-    && monster.x <= (hero.x + 32)
+    hero.x <= (monster.x + 50)
+    && monster.x <= (hero.x + 60)
     && hero.y <= (monster.y + 32)
-    && monster.y <= (hero.y + 32)
-  ) {
+    && monster.y <= (hero.y + 42)
+    ) {
     ++monstersCaught;
-    reset();
-  }
+  reset();
+}
 };
 
 // Draw everything
