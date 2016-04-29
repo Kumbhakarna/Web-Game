@@ -1,16 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <title>Ca$h Moneyy</title>
-  <link rel="stylesheet" href="css/game.css">
 
-<audio id="myAudio"
- <source src="pokemon-Colosseum.mp3"
-         type='audio/mp3'>
- Your user agent does not support the HTML5 Audio element.
-</audio>
-<button type="button" onclick="aud_play_pause()">Mute/UnMute</button>
-<script>
 function aud_play_pause() {
   var myAudio = document.getElementById("myAudio");
   if (myAudio.paused) {
@@ -19,28 +7,7 @@ function aud_play_pause() {
     myAudio.pause();
   }
 }
-</script>
-</head>
-<body>
-  <style>
-    button {
-      padding-left: 0;
-      padding-right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-      width: 1000px;
-    }
-    canvas {
-      padding-left: 0;
-      padding-right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-      width: 1000px;
-    }
-  </style>
-  <script>
+
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -55,7 +22,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
   bgReady = true;
 };
-bgImage.src = "./bgcloth.jpg";
+bgImage.src = "../images/bgcloth.jpg";
 bgImage.width = "1000";
 
 var heroReady = false;
@@ -63,7 +30,7 @@ var heroImage = new Image();
 heroImage.onload = function () {
   heroReady = true;
 };
-heroImage.src = "heroImage.png";
+heroImage.src = "../images/heroImage.png";
 heroImage.width = "5";
 
 
@@ -73,7 +40,7 @@ var monsterImage = new Image();
 monsterImage.onload = function () {
   monsterReady = true;
 };
-monsterImage.src = "redBlob.png";
+monsterImage.src = "../images/redBlob.png";
 monsterImage.width = "5";
 
 // Game objects
@@ -217,17 +184,17 @@ var update = function (modifier) {
     monster.y -= 2;
   } else {
     if (moveUpRight) {
-      monsterImage.src = "redBlob.png";
+      monsterImage.src = "../images/redBlob.png";
       monster.y -= 2;
       monster.x += 2;
     }
     else {
       if (moveRight) {
-        monsterImage.src = "redBlob.png";
+        monsterImage.src = "../images/redBlob.png";
         monster.x += 2;
       } else {
         if (moveDownRight) {
-          monsterImage.src = "redBlob.png";
+          monsterImage.src = "../images/redBlob.png";
           monster.y += 2;
           monster.x += 2;
         } else {
@@ -235,16 +202,16 @@ var update = function (modifier) {
             monster.y += 2;
           } else {
             if (moveDownLeft) {
-              monsterImage.src = "redBlobINVERT.png";
+              monsterImage.src = "../images/redBlobINVERT.png";
               monster.y += 2;
               monster.x -= 2;
             } else {
               if (moveLeft) {
-                monsterImage.src = "redBlobINVERT.png";
+                monsterImage.src = "../images/redBlobINVERT.png";
                 monster.x -= 2;
               } else {
                 if (moveUpLeft) {
-                  monsterImage.src = "redBlobINVERT.png";
+                  monsterImage.src = "../images/redBlobINVERT.png";
                   monster.y -= 2;
                   monster.x -= 2;
                 }
@@ -264,11 +231,11 @@ var update = function (modifier) {
     hero.y += hero.speed * modifier;
   }
   if (37 in keysDown && hero.x -5 > 0) { // Player holding left
-    heroImage.src = "heroImageINVERT.png";
+    heroImage.src = "../images/heroImageINVERT.png";
     hero.x -= hero.speed * modifier;
   }
   if (39 in keysDown && hero.x + 78 < 1000) { // Player holding right
-    heroImage.src = "heroImage.png";
+    heroImage.src = "../images/heroImage.png";
     hero.x += monster.speed * modifier;
   }
 
@@ -331,6 +298,3 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 var then = Date.now();
 reset();
 main();
-</script>
-</body>
-</html>
