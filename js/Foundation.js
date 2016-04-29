@@ -49,7 +49,19 @@ var hero = {
   x: 0,
   y: 0
 };
+
 var monster = {
+  newDirection: true,
+  movementCount: 140,
+  moveUp: false,
+  moveDown: false,
+  moveLeft: false,
+  moveRight: false,
+  moveUpRight: false,
+  moveDownRight: false,
+  moveDownLeft: false,
+  moveUpLeft: false,
+  monsterMove: 0,
   speed: 256,
   x: 0,
   y: 0
@@ -78,142 +90,135 @@ var reset = function () {
   monster.y = (Math.random() * (canvas.height - 64));
 };
 //Global variables for monster
-var newDirection = true;
-var movementCount = 140;
-var moveUp = false;
-var moveDown = false;
-var moveLeft = false;
-var moveRight = false;
-var moveUpRight = false;
-var moveDownRight = false;
-var moveDownLeft = false;
-var moveUpLeft = false;
-var monsterMove = 0;
 
-var monsterReset = function () {
-  //movementCount = 0;
-  moveUp = false;
-  moveDown = false;
-  moveLeft = false;
-  moveRight = false;
-  moveUpRight = false;
-  moveDownRight = false;
-  moveDownLeft = false;
-  moveUpLeft = false;
+
+var monsterReset = function (blob) {
+  
+  blob.moveUp = false;
+  blob.moveDown = false;
+  blob.moveLeft = false;
+  blob.moveRight = false;
+  blob.moveUpRight = false;
+  blob.moveDownRight = false;
+  blob.moveDownLeft = false;
+  blob.moveUpLeft = false;
+  
 };
 
-// Update game objects
-var update = function (modifier) {
+var switchMonsterDirection = function (blob) {
+  
+  if ((blob.movementCount == 140) || (blob.y + 50 >= 580) || (blob.y - 30 <= 0) || (blob.x -5 <= 0) || (blob.x + 80 >= 1000)) {
+    blob.movementCount = 0;
+    blob.monsterMove = Math.floor(Math.random() * 8) + 1 ;
 
-
-  if ((movementCount == 140) || (monster.y + 50 >= 580) || (monster.y - 30 <= 0) || (monster.x -5 <= 0) || (monster.x + 80 >= 1000)) {
-    movementCount = 0;
-    monsterMove = Math.floor(Math.random() * 8) + 1 ;
-
-    switch (monsterMove) {
+    switch (blob.monsterMove) {
       case 1: {
-        if (monster.y - 30 > 0) {
-          monsterReset();
-          moveUp = true; 
+        if (blob.y - 30 > 0) {
+          monsterReset(monster);
+          blob.moveUp = true; 
         }
-        movementCount++;
+        blob.movementCount++;
         break;
       }
       case 2: {
-        if (monster.y - 30 > 0 && monster.x + 80 < 1000) { 
-          monsterReset();
-          moveUpRight = true; 
+        if (blob.y - 30 > 0 && blob.x + 80 < 1000) { 
+          monsterReset(blob);
+          blob.moveUpRight = true; 
         }
-        movementCount++;
+        blob.movementCount++;
         break;
       }
       case 3: {
-        if (monster.x + 80 < 1000) { 
-          monsterReset();
-          moveRight = true; 
+        if (blob.x + 80 < 1000) { 
+          monsterReset(blob);
+          blob.moveRight = true; 
         }
-        movementCount++;
+        blob.movementCount++;
         break;
       }
 
       case 4: {
-        if (monster.y + 50 < 580 && monster.x + 80 < 1000) { 
-          monsterReset();
-          moveDownRight = true; 
+        if (blob.y + 50 < 580 && blob.x + 80 < 1000) { 
+          monsterReset(monster);
+          blob.moveDownRight = true; 
         }
-        movementCount++;
+        blob.movementCount++;
         break;
       }
       case 5: {
-        if (monster.y + 50 < 580) { 
-          monsterReset();
-          moveDown = true; 
+        if (blob.y + 50 < 580) { 
+          monsterReset(monster);
+          blob.moveDown = true; 
         }
-        movementCount++;
+        blob.movementCount++;
         break;
       }
       case 6: {
-        if (monster.y + 50 < 580 && monster.x - 80 > 0) { 
-          monsterReset();
-          moveDownLeft = true;
+        if (blob.y + 50 < 580 && blob.x - 80 > 0) { 
+          monsterReset(monster);
+          blob.moveDownLeft = true;
         }
-        movementCount++;
+        blob.movementCount++;
         break;
       }
       case 7: {
-        if ( monster.x - 80 > 0) { 
-          monsterReset();
-          moveLeft = true; 
+        if ( blob.x - 80 > 0) { 
+          monsterReset(monster);
+          blob.moveLeft = true; 
         }
-        movementCount++;
+        blob.movementCount++;
         break;
       }
 
       case 8: {
-        if (monster.y - 30 > 0 && monster.x - 80 > 0) { 
-          monsterReset();
-          moveUpLeft = true; 
+        if (blob.y - 30 > 0 && blob.x - 80 > 0) { 
+          monsterReset(monster);
+          blob.moveUpLeft = true; 
         }
-        movementCount++;
+        blob.movementCount++;
         break;
       } 
     }
   }
+  
+};
 
-  if (moveUp) {
-    monster.y -= 2;
+var monsterMovement = function (blob) {
+  
+  if (blob.moveUp) {
+   blob.y -= 2;
   } else {
-    if (moveUpRight) {
+    if (blob.moveUpRight) {
       monsterImage.src = "../images/redBlob.png";
-      monster.y -= 2;
-      monster.x += 2;
+      blob.y -= 2;
+      blob.x += 2;
     }
     else {
-      if (moveRight) {
+      if (blob.moveRight) {
         monsterImage.src = "../images/redBlob.png";
-        monster.x += 2;
+        blob.x += 2;
       } else {
-        if (moveDownRight) {
+        if (blob.moveDownRight) {
           monsterImage.src = "../images/redBlob.png";
-          monster.y += 2;
-          monster.x += 2;
+          blob.y += 2;
+          blob.x += 2;
         } else {
-          if (moveDown) {
-            monster.y += 2;
+          if (blob.moveDown) {
+            blob.y += 2;
           } else {
-            if (moveDownLeft) {
+            if (blob.moveDownLeft) {
               monsterImage.src = "../images/redBlobINVERT.png";
-              monster.y += 2;
-              monster.x -= 2;
+              blob.y += 2;
+              blob.x -= 2;
             } else {
-              if (moveLeft) {
+              if (blob.moveLeft) {
                 monsterImage.src = "../images/redBlobINVERT.png";
-                monster.x -= 2;
+                blob.x -= 2;
               } else {
-                if (moveUpLeft) {
+                if (blob.moveUpLeft) {
                   monsterImage.src = "../images/redBlobINVERT.png";
-                  monster.y -= 2;
-                  monster.x -= 2;
+                  blob.y -= 2;
+                  blob.x -= 2;
                 }
               }
             }
@@ -222,8 +227,25 @@ var update = function (modifier) {
       }
     }
   }
+  
+};
 
-  movementCount++;
+var increaseCount = function (blob) {
+  
+  blob.movementCount++;
+  
+};
+
+
+// Update game objects
+var update = function (modifier) {
+
+
+
+  switchMonsterDirection(monster);
+  monsterMovement(monster);
+  increaseCount(monster);
+  
   if (38 in keysDown && hero.y - 5> 0) { // Player holding up
     hero.y -= hero.speed * modifier;
   }
@@ -271,7 +293,7 @@ var render = function () {
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
   
-  ctx.fillText("Movement Count: " + movementCount + " \n Which Path: " + monsterMove, 32, 32);
+  ctx.fillText("Movement Count: " + monster.movementCount + " \n Which Path: " + monster.monsterMove, 32, 32);
   
 };
 
